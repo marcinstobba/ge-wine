@@ -1,0 +1,60 @@
+diff --git a/dlls/wined3d/device.c b/dlls/wined3d/device.c
+index 785841a062..cfe04577e4 100644
+--- a/dlls/wined3d/device.c
++++ b/dlls/wined3d/device.c
+@@ -838,10 +838,10 @@ static void create_buffer_heap(struct wined3d_device *device, struct wined3d_con
+ {
+     const struct wined3d_gl_info *gl_info = &device->adapter->gl_info;
+     // TODO(acomminos): kill this magic number. perhaps base on vram.
+-    GLsizeiptr geo_heap_size = 512 * 1024 * 1024;
++    GLsizeiptr geo_heap_size = wined3d_settings.geo_heap * 1024 * 1024;
+     // We choose a constant buffer size of 128MB, the same as NVIDIA claims to
+     // use in their Direct3D driver for discarded constant buffers.
+-    GLsizeiptr cb_heap_size = 128 * 1024 * 1024;
++    GLsizeiptr cb_heap_size = wined3d_settings.cb_heap * 1024 * 1024;
+     GLint ub_alignment;
+     HRESULT hr;
+ 
+diff --git a/dlls/wined3d/wined3d_main.c b/dlls/wined3d/wined3d_main.c
+index 28e6fe60cf..c084aeab33 100644
+--- a/dlls/wined3d/wined3d_main.c
++++ b/dlls/wined3d/wined3d_main.c
+@@ -92,6 +92,8 @@ struct wined3d_settings wined3d_settings =
+     ~0U,            /* No PS shader model limit by default. */
+     ~0u,            /* No CS shader model limit by default. */
+     FALSE,          /* 3D support enabled by default. */
++    512,            /* geo_heap_size */
++    128,            /* cb_heap_size */
+ };
+ 
+ struct wined3d * CDECL wined3d_create(DWORD flags)
+@@ -321,6 +323,16 @@ static BOOL wined3d_dll_init(HINSTANCE hInstDLL)
+             TRACE("Disabling 3D support.\n");
+             wined3d_settings.no_3d = TRUE;
+         }
++        if (!get_config_key(hkey, appkey, "geo_heap", buffer, size ) )
++        {
++            wined3d_settings.geo_heap = atoi(buffer);
++            ERR_(winediag)("found manual geo_heap_size of \"%imb\".\n", wined3d_settings.geo_heap);
++        }
++        if (!get_config_key(hkey, appkey, "cb_heap", buffer, size ))
++        {
++            wined3d_settings.cb_heap = atoi(buffer);
++            ERR_(winediag)("found manual cb_heap_size of \"%imb\".\n", wined3d_settings.cb_heap );
++        }
+     }
+ 
+     if (appkey) RegCloseKey( appkey );
+diff --git a/dlls/wined3d/wined3d_private.h b/dlls/wined3d/wined3d_private.h
+index 0114444943..3713bc7231 100644
+--- a/dlls/wined3d/wined3d_private.h
++++ b/dlls/wined3d/wined3d_private.h
+@@ -407,6 +407,8 @@ struct wined3d_settings
+     unsigned int max_sm_ps;
+     unsigned int max_sm_cs;
+     BOOL no_3d;
++    unsigned int geo_heap;
++    unsigned int cb_heap;
+ };
+ 
+ extern struct wined3d_settings wined3d_settings DECLSPEC_HIDDEN; 
