@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-vulkan-git
-pkgver=3.3.r15.gcea60071+wine.3.3.r212.gc21c8525f9
+pkgver=3.3.r16.gebe4142f+wine.3.3.r235.g1c8c9308e7
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
@@ -87,6 +87,7 @@ source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         '3.3-vulkan-fix'::'git+https://github.com/gloriouseggroll/3.3-vulkan-fix.git'
         'gallium9'::'git+https://github.com/kytulendu/wine-d3d9-patches.git'
         'fallout4.patch'
+        'strider.patch'
         'wolfenstein2.patch'
         'ffxiv-pba.patch'
         'g9-fix.patch'
@@ -94,6 +95,7 @@ source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         '30-win32-aliases.conf'
         'wine-binfmt.conf')
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -144,6 +146,10 @@ prepare() {
     #fix gallium 9 to work with upstream wine
     patch -Np1 < ../g9-fix.patch
 
+    cd "${srcdir}"/wine-pba
+    git reset --hard HEAD      # restore tracked files
+    git clean -xdf             # delete untracked files
+
     cd "${srcdir}"/wine-git
     # restore the wine tree to its git origin state, without wine-staging patches
     # (necessary for reapllying wine-staging patches in succedent builds,
@@ -173,6 +179,9 @@ prepare() {
 
     # fix wolfenstein 2 in staging vulkan + wine
     patch -Np1 -i ../wolfenstein2.patch
+
+    # fix strider
+    patch -Np1 -i ../strider.patch
 
     # add pba patches
     for _f in $(ls ../wine-pba/patches); do patch -Np1 -i ../wine-pba/patches/$_f; done
