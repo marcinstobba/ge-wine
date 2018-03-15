@@ -23,6 +23,7 @@ Contains an arch pkgbuild with the following:
 -fallout 4 loading patch and lod patch  
 -wolfenstein 2 loading patch and staging vulkan patch  
 -harmony-fix patch  
+-strider patch to prevent strider from crashing  
 
 Note: this is only an Arch package with PKGBUILD and files necessary to compile on arch via makepkg. For other distros please see prepare/build sections of PKGBUILD  
 
