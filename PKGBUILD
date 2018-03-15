@@ -135,6 +135,9 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
+    
+    #use this rebase version until wine-git fixes weird pink overwatch logos
+    git checkout e8d98eb7ba2e7aaf610196b67c713f2be13a15ff
 
     # fix vulkan
     for i in ../3.3-vulkan-fix/staging/*.patch; do patch -Np1 < $i; done
