@@ -84,13 +84,10 @@ install="$pkgname".install
 source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         "wine-staging"::'git+https://github.com/wine-staging/wine-staging.git'
 	'wine-pba'::'git+https://github.com/acomminos/wine-pba.git'
-        '3.3-vulkan-fix'::'git+https://github.com/gloriouseggroll/3.3-vulkan-fix.git'
         'gallium9'::'git+https://github.com/kytulendu/wine-d3d9-patches.git'
         'fallout4.patch'
         'strider.patch'
-        'wolfenstein2.patch'
         'ffxiv-pba.patch'
-        'g9-fix.patch'
         'harmony-fix.diff'
         '30-win32-aliases.conf'
         'wine-binfmt.conf')
@@ -98,9 +95,6 @@ sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
-            'SKIP'
-	    'SKIP'
-	    'SKIP'
 	    'SKIP'
             'SKIP'
             'SKIP'
@@ -136,15 +130,9 @@ prepare() {
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
 
-    # fix vulkan
-    for i in ../3.3-vulkan-fix/staging/*.patch; do patch -Np1 < $i; done
-
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-
-    #fix gallium 9 to work with upstream wine
-    patch -Np1 < ../g9-fix.patch
 
     cd "${srcdir}"/wine-pba
     git reset --hard HEAD      # restore tracked files
@@ -164,10 +152,7 @@ prepare() {
 
     # fix path of opencl headers
     sed 's|OpenCL/opencl.h|CL/opencl.h|g' -i configure*
-    
-    # fix vulkan
-    for i in ../3.3-vulkan-fix/wine/*.patch; do patch -Np1 < $i; done  
-    
+        
     # freetype harmony fix
     patch -Np1 -i ../harmony-fix.diff
 
@@ -176,9 +161,6 @@ prepare() {
 
     # then apply staging patches
     ../wine-staging/patches/patchinstall.sh --all
-
-    # fix wolfenstein 2 in staging vulkan + wine
-    patch -Np1 -i ../wolfenstein2.patch
 
     # fix strider
     patch -Np1 -i ../strider.patch
