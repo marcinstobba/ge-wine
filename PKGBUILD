@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-vulkan-git
-pkgver=3.3.r16.gebe4142f+wine.3.3.r235.g1c8c9308e7
+pkgver=3.4.r0.g495f9db4+wine.3.4.r0.gafe4f54bb4
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
@@ -87,11 +87,13 @@ source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         'gallium9'::'git+https://github.com/kytulendu/wine-d3d9-patches.git'
         'fallout4.patch'
         'strider.patch'
+        'pathofexile.patch'
         'ffxiv-pba.patch'
         'harmony-fix.diff'
         '30-win32-aliases.conf'
         'wine-binfmt.conf')
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -138,6 +140,10 @@ prepare() {
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
 
+    #fix heap size in pba for ffxiv
+    echo "***fixing pba for ffxiv***"
+    patch -Np1 -i ../ffxiv-pba.patch
+
     cd "${srcdir}"/wine-git
     # restore the wine tree to its git origin state, without wine-staging patches
     # (necessary for reapllying wine-staging patches in succedent builds,
@@ -154,28 +160,34 @@ prepare() {
     sed 's|OpenCL/opencl.h|CL/opencl.h|g' -i configure*
         
     # freetype harmony fix
+    echo "***freetype harmony fix***"
     patch -Np1 -i ../harmony-fix.diff
 
     # fix fallout 4
+    echo "***fallout 4 fix***"
     patch -Np1 -i ../fallout4.patch
 
+    # fix path of exile
+    echo "***path of exile fix***"
+    patch -Np1 -i ../pathofexile.patch
+
     # then apply staging patches
+    echo "***staging patches***"
     ../wine-staging/patches/patchinstall.sh --all
 
     # fix strider
+    echo "***strider fix***"
     patch -Np1 -i ../strider.patch
 
     # add pba patches
+    echo "***pba patches***"
     for _f in $(ls ../wine-pba/patches); do patch -Np1 -i ../wine-pba/patches/$_f; done
 
-    #fix heap size in pba for ffxiv
-    patch -Np1 -i ../ffxiv-pba.patch
-
     # gallium 9
-    #echo "starting g9 staging helper"
+    echo "starting g9 staging helper"
     patch -Np1 < ../gallium9/staging-helper.patch
 
-    #echo "starting g9 patches"
+    echo "starting g9 patches"
     patch -Np1 < ../gallium9/wine-d3d9.patch
 
     autoreconf -f
