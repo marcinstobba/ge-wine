@@ -130,9 +130,6 @@ prepare() {
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
     
-    #use this rebase version until wine-git fixes weird pink overwatch logos
-    git checkout e8d98eb7ba2e7aaf610196b67c713f2be13a15ff
-
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
