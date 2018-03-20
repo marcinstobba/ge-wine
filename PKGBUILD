@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-vulkan-git
-pkgver=3.4.r0.g495f9db4+wine.3.4.r0.gafe4f54bb4
+pkgver=3.4.r1.gb05c0919+wine.3.4.r26.gae5d0b2229
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
@@ -84,15 +84,17 @@ install="$pkgname".install
 source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         "wine-staging"::'git+https://github.com/wine-staging/wine-staging.git'
 	'wine-pba'::'git+https://github.com/acomminos/wine-pba.git'
-        'gallium9'::'git+https://github.com/kytulendu/wine-d3d9-patches.git'
+        'gallium9'::'git+https://github.com/sarnex/wine-d3d9-patches.git'
         'fallout4.patch'
         'strider.patch'
         'pathofexile.patch'
+        'origin-fix.patch'
         'ffxiv-pba.patch'
         'harmony-fix.diff'
         '30-win32-aliases.conf'
         'wine-binfmt.conf')
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -140,10 +142,6 @@ prepare() {
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
 
-    #fix heap size in pba for ffxiv
-    echo "***fixing pba for ffxiv***"
-    patch -Np1 -i ../ffxiv-pba.patch
-
     cd "${srcdir}"/wine-git
     # restore the wine tree to its git origin state, without wine-staging patches
     # (necessary for reapllying wine-staging patches in succedent builds,
@@ -171,6 +169,10 @@ prepare() {
     echo "***path of exile fix***"
     patch -Np1 -i ../pathofexile.patch
 
+    # fix origin
+    echo "***path of exile fix***"
+    patch -Np1 -i ../origin-fix.patch
+
     # then apply staging patches
     echo "***staging patches***"
     ../wine-staging/patches/patchinstall.sh --all
@@ -182,6 +184,10 @@ prepare() {
     # add pba patches
     echo "***pba patches***"
     for _f in $(ls ../wine-pba/patches); do patch -Np1 -i ../wine-pba/patches/$_f; done
+
+    #fix heap size in pba for ffxiv
+    echo "***fixing pba for ffxiv***"
+    patch -Np1 -i ../ffxiv-pba.patch
 
     # gallium 9
     echo "starting g9 staging helper"
