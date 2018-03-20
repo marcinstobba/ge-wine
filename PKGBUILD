@@ -190,7 +190,7 @@ prepare() {
     for _f in ../wine-pba/patches/00*.patch; do
         echo "applying ${_f##*/}"
         patch -Np1 -i  "${_f}" && continue
-        echo "oh nooooo.. ${_f##*/} broke somehow
+        echo "oh nooooo.. ${_f##*/} broke somehow"
         break
     done
 
