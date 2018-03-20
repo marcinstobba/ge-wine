@@ -178,7 +178,8 @@ prepare() {
 
     # then apply staging patches
     echo "***staging patches***"
-    ../wine-staging/patches/patchinstall.sh --all
+    ../wine-staging/patches/patchinstall.sh --all --backend=git-am || \
+    echo "oops,  looks like we are missing the commit staging expects"
 
     # fix strider
     echo "***strider fix***"
