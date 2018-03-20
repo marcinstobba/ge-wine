@@ -186,7 +186,12 @@ prepare() {
 
     # add pba patches
     echo "***pba patches***"
-    for _f in $(ls ../wine-pba/patches); do patch -Np1 -i ../wine-pba/patches/$_f; done
+    for _f in ../wine-pba/patches/00*.patch; do
+        echo "applying ${_f##*/}"
+        patch -Np1 -i  "${_f}" && continue
+        echo "oh nooooo.. ${_f##*/} broke somehow
+        break
+    done
 
     #fix heap size in pba for ffxiv
     echo "***fixing pba for ffxiv***"
