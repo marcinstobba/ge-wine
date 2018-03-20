@@ -133,6 +133,9 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
+
+    # use this hash, current rebase breaks bnet/origin/uplay (temporary)
+    git checkout 495f9db49ceac09980ced36cf753dfa5f116a4ec
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
