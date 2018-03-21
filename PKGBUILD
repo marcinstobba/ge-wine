@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-vulkan-git
-pkgver=3.4.r1.gb05c0919+wine.3.4.r26.gae5d0b2229
+pkgver=3.4.r2.ge38104d3+wine.3.4.r57.gcfb67712ce
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
@@ -135,6 +135,7 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
+    git checkout tags/v3.4
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
