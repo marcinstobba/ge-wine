@@ -87,6 +87,7 @@ source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         'gallium9'::'git+https://github.com/sarnex/wine-d3d9-patches.git'
         'fallout4.patch'
         'strider.patch'
+        'bayonetta.patch'
         'pathofexile.patch'
         'origin-fix.patch'
         'ffxiv-pba.patch'
@@ -94,6 +95,7 @@ source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         '30-win32-aliases.conf'
         'wine-binfmt.conf')
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
@@ -133,9 +135,6 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-
-    # use this hash, current rebase breaks bnet/origin/uplay (temporary)
-    git checkout 495f9db49ceac09980ced36cf753dfa5f116a4ec
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
@@ -172,6 +171,10 @@ prepare() {
     echo "***path of exile fix***"
     patch -Np1 -i ../pathofexile.patch
 
+    # fix bayonetta
+    echo "***bayonetta fix***"
+    patch -Np1 -i ../bayonetta.patch
+
     # fix origin
     echo "***path of exile fix***"
     patch -Np1 -i ../origin-fix.patch
@@ -179,7 +182,7 @@ prepare() {
     # then apply staging patches
     echo "***staging patches***"
     ../wine-staging/patches/patchinstall.sh --all
-    
+
     # fix strider
     echo "***strider fix***"
     patch -Np1 -i ../strider.patch
