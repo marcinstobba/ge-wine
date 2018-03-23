@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-vulkan-git
-pkgver=3.4.r2.ge38104d3+wine.3.4.r57.gcfb67712ce
+pkgver=3.4.r4.g4d7af408+wine.3.4.r120.gafef57f872
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
@@ -135,7 +135,7 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    git checkout tags/v3.4
+    #git checkout tags/v3.4
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
@@ -173,12 +173,12 @@ prepare() {
     patch -Np1 -i ../pathofexile.patch
 
     # fix bayonetta
-    echo "***bayonetta fix***"
+    #echo "***bayonetta fix***"
     patch -Np1 -i ../bayonetta.patch
 
     # fix origin
     echo "***path of exile fix***"
-    patch -Np1 -i ../origin-fix.patch
+    #patch -Np1 -i ../origin-fix.patch
 
     # then apply staging patches
     echo "***staging patches***"
