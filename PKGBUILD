@@ -86,10 +86,7 @@ source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
 	'wine-pba'::'git+https://github.com/acomminos/wine-pba.git'
         'gallium9'::'git+https://github.com/sarnex/wine-d3d9-patches.git'
         'fallout4.patch'
-        'strider.patch'
-        'bayonetta.patch'
         'pathofexile.patch'
-        'origin-fix.patch'
         'ffxiv-pba.patch'
         'harmony-fix.diff'
         '30-win32-aliases.conf'
@@ -172,21 +169,9 @@ prepare() {
     echo "***path of exile fix***"
     patch -Np1 -i ../pathofexile.patch
 
-    # fix bayonetta
-    #echo "***bayonetta fix***"
-    patch -Np1 -i ../bayonetta.patch
-
-    # fix origin
-    echo "***path of exile fix***"
-    #patch -Np1 -i ../origin-fix.patch
-
     # then apply staging patches
     echo "***staging patches***"
     ../wine-staging/patches/patchinstall.sh --all
-
-    # fix strider
-    echo "***strider fix***"
-    patch -Np1 -i ../strider.patch
 
     # add pba patches
     echo "***pba patches***"

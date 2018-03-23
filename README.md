@@ -5,11 +5,9 @@ Contains an arch pkgbuild with the following:
 
 # Staging:  
 -staging upstream patches  
--staging vulkan patches re-enabled  
 
 # Gallium Nine:  
 -gallium 9 upstream patches  
--temporary patch to allow gallium 9 to compile with staging upstream  
 
 # PBA:  
 -acommenos pba patches  
@@ -21,10 +19,7 @@ Usage and details for ffxiv heap patch:
 
 # Game fixes:  
 -fallout 4 loading patch and lod patch  
--wolfenstein 2 loading patch and staging vulkan patch  
 -harmony-fix patch  
--strider patch to prevent strider from crashing  
--origin patch stops OriginWebHelper.exe from crashing  
 -path of exile patch fixed WIC error in path of exile.  
 
 Note: this is only an Arch package with PKGBUILD and files necessary to compile on arch via makepkg. For other distros please see prepare/build sections of PKGBUILD  
