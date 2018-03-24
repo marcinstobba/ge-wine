@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-vulkan-git
-pkgver=3.4.r4.g4d7af408+wine.3.4.r120.gafef57f872
+pkgver=3.4.r5.g4954f5c6+wine.3.4.r142.g5946973021
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
@@ -83,7 +83,7 @@ options=('staticlibs')
 install="$pkgname".install
 source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         "wine-staging"::'git+https://github.com/wine-staging/wine-staging.git'
-	'wine-pba'::'git+https://github.com/acomminos/wine-pba.git'
+	'wine-pba'::'git+https://github.com/SveSop/wine-pba-rebased.git'
         'gallium9'::'git+https://github.com/sarnex/wine-d3d9-patches.git'
         'fallout4.patch'
         'pathofexile.patch'
@@ -129,8 +129,7 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    # use 3.4 tag because latest rebase not working with pba
-    git checkout tags/v3.4
+    #git checkout tags/v3.4
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
