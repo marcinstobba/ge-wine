@@ -129,7 +129,8 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    #git checkout tags/v3.4
+    # use 3.4 tag because latest rebase not working with pba
+    git checkout tags/v3.4
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
