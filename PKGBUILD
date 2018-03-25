@@ -83,11 +83,10 @@ options=('staticlibs')
 install="$pkgname".install
 source=('wine-git'::'git+https://github.com/wine-mirror/wine.git'
         "wine-staging"::'git+https://github.com/wine-staging/wine-staging.git'
-	'wine-pba'::'git+https://github.com/SveSop/wine-pba-rebased.git'
+	'wine-pba'::'git+https://github.com/firerat/wine-pba.git#branch=heap_size_envvars'
         'gallium9'::'git+https://github.com/sarnex/wine-d3d9-patches.git'
         'fallout4.patch'
         'pathofexile.patch'
-        'ffxiv-pba.patch'
         'harmony-fix.diff'
         '30-win32-aliases.conf'
         'wine-binfmt.conf')
@@ -95,7 +94,6 @@ sha256sums=('SKIP'
             'SKIP'
             'SKIP'
 	    'SKIP'
-            'SKIP'
             'SKIP'
             'SKIP'
             '50ccb5bd2067e5d2739c5f7abcef11ef096aa246f5ceea11d2c3b508fc7f77a1'
@@ -129,7 +127,7 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    #git checkout tags/v3.4
+    git checkout tags/v3.4
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
@@ -138,6 +136,9 @@ prepare() {
     cd "${srcdir}"/wine-pba
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
+    
+    # use this commit in case later commits are made past 3.4
+    git checkout 675e0ffe6e16cb74fa6657b13b3ae230e0e60817
 
     cd "${srcdir}"/wine-git
     # restore the wine tree to its git origin state, without wine-staging patches
@@ -178,11 +179,7 @@ prepare() {
         echo "oh nooooo.. ${_f##*/} broke somehow"
         break
     done
-
-    #fix heap size in pba for ffxiv
-    echo "***fixing pba for ffxiv***"
-    patch -Np1 -i ../ffxiv-pba.patch
-
+    
     # gallium 9
     echo "starting g9 staging helper"
     patch -Np1 < ../gallium9/staging-helper.patch
