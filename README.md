@@ -1,5 +1,5 @@
 # ge-wine
-My personal all in one wine build.  
+My personal all in one wine build. two branches: ge-wine and ge-wine-git. git is synced with latest staging upstream on all patch sources (unless something breaks that I can't fix). ge-wine is synced with latest staging release. 
 
 Contains an arch pkgbuild with the following:  
 
