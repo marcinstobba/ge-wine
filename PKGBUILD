@@ -127,18 +127,17 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    git checkout tags/v3.4
+    git checkout tags/v3.4     # version checkout
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
+    git checkout tags/wine-d3d9-3.4     # version checkout
 
     cd "${srcdir}"/wine-pba
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    
-    # use this commit in case later commits are made past 3.4
-    git checkout 675e0ffe6e16cb74fa6657b13b3ae230e0e60817
+    git checkout tags/heap_size_envvars-v3.4     # version checkout
 
     cd "${srcdir}"/wine-git
     # restore the wine tree to its git origin state, without wine-staging patches
@@ -147,10 +146,7 @@ prepare() {
     msg2 'Cleaning wine source code tree...'
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    
-    # change back to the wine upstream commit that this version of wine-staging is based in
-    #msg2 'Changing wine HEAD to the wine-staging base commit...'
-    git checkout "$(../wine-staging/patches/patchinstall.sh --upstream-commit)"
+    git checkout "$(../wine-staging/patches/patchinstall.sh --upstream-commit)"     # version checkout
 
     # fix path of opencl headers
     sed 's|OpenCL/opencl.h|CL/opencl.h|g' -i configure*
