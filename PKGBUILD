@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-vulkan-git
-pkgver=3.4.r5.g4954f5c6+wine.3.4.r142.g5946973021
+pkgver=3.4.r0.g495f9db4+wine.3.4.r0.gafe4f54bb4
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
@@ -153,15 +153,15 @@ prepare() {
         
     # freetype harmony fix
     echo "***freetype harmony fix***"
-    patch -Np1 -i ../harmony-fix.diff
+    patch -Np1 < ../harmony-fix.diff
 
     # fix fallout 4
     echo "***fallout 4 fix***"
-    patch -Np1 -i ../fallout4.patch
+    patch -Np1 < ../fallout4.patch
 
     # fix path of exile
     echo "***path of exile fix***"
-    patch -Np1 -i ../pathofexile.patch
+    patch -Np1 < ../pathofexile.patch
 
     # then apply staging patches
     echo "***staging patches***"
@@ -171,9 +171,7 @@ prepare() {
     echo "***pba patches***"
     for _f in ../wine-pba/patches/00*.patch; do
         echo "applying ${_f##*/}"
-        patch -Np1 -i  "${_f}" && continue
-        echo "oh nooooo.. ${_f##*/} broke somehow"
-        break
+        patch -Np1 <  "${_f}"
     done
     
     # gallium 9
