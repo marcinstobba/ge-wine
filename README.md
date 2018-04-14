@@ -20,7 +20,8 @@ Usage and details for ffxiv heap patch:
 # Game fixes:  
 -fallout 4 loading patch and lod patch  
 -harmony-fix patch  
--path of exile patch fixed WIC error in path of exile.  
+-path of exile patch fixed WIC error in path of exile dx11 mode.  
+-xaudio2 revert commit b747d6f6ccdf1699a9242a570d681fa246de592e which forces wine to use builtin xaudio2 instead of native, and breaks sound in a lot of games.  
 
 Note: this is only an Arch package with PKGBUILD and files necessary to compile on arch via makepkg. For other distros please see prepare/build sections of PKGBUILD  
 

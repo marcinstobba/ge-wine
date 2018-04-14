@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-vulkan-git
-pkgver=3.4.r18.g1dfd404d+wine.3.5.r0.g79f93ecf42
+pkgver=3.6.r0.g8fd6d103+wine.3.6.r0.g3f281a3baa
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
@@ -127,17 +127,17 @@ prepare() {
     cd "${srcdir}"/wine-staging
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    git checkout tags/v3.5     # version checkout
+    git checkout tags/v3.6     # version checkout
     
     cd "${srcdir}"/gallium9
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    git checkout tags/wine-d3d9-3.5     # version checkout
+    git checkout tags/wine-d3d9-3.6     # version checkout
 
     cd "${srcdir}"/wine-pba
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    git checkout tags/heap_size_envvars-v3.5.1     # version checkout
+    git checkout tags/3.6     # version checkout
 
     cd "${srcdir}"/wine-git
     # restore the wine tree to its git origin state, without wine-staging patches
@@ -154,7 +154,7 @@ prepare() {
     # freetype harmony fix
     echo "***freetype harmony fix***"
     patch -Np1 < ../harmony-fix.diff
-
+    
     # fix fallout 4
     echo "***fallout 4 fix***"
     patch -Np1 < ../fallout4.patch
@@ -162,7 +162,10 @@ prepare() {
     # fix path of exile
     echo "***path of exile fix***"
     patch -Np1 < ../pathofexile.patch
-
+    
+    #fix xaudio2 
+    git revert --no-commit b747d6f6ccdf1699a9242a570d681fa246de592e
+    
     # then apply staging patches
     echo "***staging patches***"
     ../wine-staging/patches/patchinstall.sh --all
