@@ -2,7 +2,7 @@
 # Contributor: Daniel Bermond < yahoo-com: danielbermond >
 
 pkgname=wine-staging-git
-pkgver=wine-staging-git 3.8.r0.geb684dd9+wine.3.8.r0.g7280f7fb74-1
+pkgver=3.8.r0.geb684dd9+wine.3.8.r0.g7280f7fb74-1
 pkgrel=1
 pkgdesc='A compatibility layer for running Windows programs (staging branch, git version) with Vulkan patches'
 arch=('i686' 'x86_64')
