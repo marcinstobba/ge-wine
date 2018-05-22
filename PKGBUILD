@@ -137,7 +137,7 @@ prepare() {
     cd "${srcdir}"/wine-pba
     git reset --hard HEAD      # restore tracked files
     git clean -xdf             # delete untracked files
-    git checkout tags/3.8     # version checkout
+    git checkout tags/3.7      # version checkout
 
     cd "${srcdir}"/wine-git
     # restore the wine tree to its git origin state, without wine-staging patches
