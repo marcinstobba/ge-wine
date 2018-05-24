@@ -1,3 +1,6 @@
+fork for testing 3.8
+
+
 # ge-wine
 My personal all in one wine build. two branches: ge-wine and ge-wine-git. git is synced with latest staging upstream on all patch sources (unless something breaks that I can't fix). ge-wine is synced with latest staging release. 
 
@@ -24,4 +27,3 @@ Usage and details for ffxiv heap patch:
 -xaudio2 revert commit b747d6f6ccdf1699a9242a570d681fa246de592e which forces wine to use builtin xaudio2 instead of native, and breaks sound in a lot of games.  
 
 Note: this is only an Arch package with PKGBUILD and files necessary to compile on arch via makepkg. For other distros please see prepare/build sections of PKGBUILD  
-
